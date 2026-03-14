@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+    --bg: #fafbfc;
+    --fg: #18181b;
+    --muted: #71717a;
+    --accent: #6366f1;
+    --accent-hover: #4f46e5;
+    --card: #ffffff;
+    --border: #e4e4e7;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .animate-on-scroll,
+    .stagger-item {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.bg-gradient-subtle {
+    background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 100% 50%, rgba(99, 102, 241, 0.05) 0%, transparent 50%),
+        var(--bg);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    border-color: rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.stagger-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.stagger-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.poll-option {
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.poll-option:hover {
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.poll-option.selected {
+    background: rgba(99, 102, 241, 0.08);
+    border-color: var(--accent);
+}
+
+.vote-bar {
+    transition: width 0.6s ease;
+}
+
+.step-line {
+    background: linear-gradient(to bottom, var(--accent), transparent);
+}
+
+.icon-container {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
