@@ -1,6 +1,6 @@
 <x-app-layout>
     <div x-data="{ openDelete: false, deleteId: null }">
-        <div x-show="openDelete" x-transition class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+        <div x-show="openDelete" x-transition x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
                 <h2 class="text-lg font-semibold text-gray-900">
                     Delete Poll

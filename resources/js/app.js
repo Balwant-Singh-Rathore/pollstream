@@ -1,7 +1,12 @@
 import './bootstrap';
+import './elements/turbo-echo-stream-tag';
+import './libs';
 
-import Alpine from 'alpinejs';
+import Alpine from 'alpinejs'
 
-window.Alpine = Alpine;
+window.Alpine = Alpine
+Alpine.start()
 
-Alpine.start();
+document.addEventListener("turbo:load", () => {
+    Alpine.initTree(document.body)
+})
