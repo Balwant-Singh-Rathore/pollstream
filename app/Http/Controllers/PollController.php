@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\VoteCast;
 use App\Http\Requests\MakeVote;
 use App\Models\Poll;
 use App\Models\PollOption;
@@ -55,6 +56,12 @@ class PollController extends Controller
 
                 PollOption::where('id', $request->option_id)
                     ->increment('votes_count');
+
+                broadcast(new VoteCast(
+                    $request->poll_id,
+                    $request->option_id,
+                    Poll::where('id', $request->poll_id)->value('total_votes')
+                ));
             });
 
             return back()->with('voted', $request->option_id);

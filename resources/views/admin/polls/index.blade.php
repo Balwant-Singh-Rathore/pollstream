@@ -1,6 +1,7 @@
 <x-app-layout>
     <div x-data="{ openDelete: false, deleteId: null }">
-        <div x-show="openDelete" x-transition x-cloak class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+        <div x-show="openDelete" x-transition x-cloak
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
             <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
                 <h2 class="text-lg font-semibold text-gray-900">
                     Delete Poll
@@ -73,60 +74,67 @@
                         </thead>
 
                         <tbody class="divide-y divide-gray-200">
-                            @foreach ($polls as $poll)
-                                <tr class="hover:bg-gray-50">
-
-                                    <td class="px-5 py-4">
-                                        <div class="flex items-center gap-2">
-
-                                            <span class="text-sm font-medium text-gray-900">
-                                                {{ $poll->question }}
-                                            </span>
-
-                                            @if ($poll->active)
-                                                <span
-                                                    class="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-                                                    Active
-                                                </span>
-                                            @endif
-
-                                        </div>
+                            @if (count($polls) === 0)
+                                <tr>
+                                    <td colspan="4" class="px-5 py-5 text-center text-sm text-gray-500">
+                                        No polls found. Create your first poll!
                                     </td>
-
-                                    <td class="hidden px-5 py-4 text-sm text-gray-500 sm:table-cell">
-                                        {{ number_format($poll->total_votes) }}
-                                    </td>
-
-                                    <td class="hidden px-5 py-4 text-sm text-gray-500 md:table-cell">
-                                        {{ $poll->created_at->format('Y-m-d') }}
-                                    </td>
-
-
-                                    <td class="px-5 py-4">
-                                        <div class="flex items-center justify-end gap-2">
-
-                                            <a href="{{ route('polls.results', $poll->id) }}"
-                                                class="rounded-lg px-3 py-1 text-sm text-gray-600 hover:bg-gray-100">
-                                                View
-                                            </a>
-
-                                            <button
-                                                onclick="copyLink('{{ url('/poll/' . $poll->slug) }}', {{ $poll->id }})"
-                                                id="copyLinkBtn-{{ $poll->id }}"
-                                                class="rounded-lg px-3 py-1 text-sm text-gray-600 hover:bg-gray-100">
-                                                Copy
-                                            </button>
-
-                                            <button @click="openDelete = true; deleteId={{ $poll->id }}"
-                                                class="rounded-lg px-3 py-1 text-sm text-red-600 hover:bg-red-50">
-                                                Delete
-                                            </button>
-                                        </div>
-                                    </td>
-
                                 </tr>
-                            @endforeach
+                            @else
+                                @foreach ($polls as $poll)
+                                    <tr class="hover:bg-gray-50">
 
+                                        <td class="px-5 py-4">
+                                            <div class="flex items-center gap-2">
+
+                                                <span class="text-sm font-medium text-gray-900">
+                                                    {{ $poll->question }}
+                                                </span>
+
+                                                @if ($poll->active)
+                                                    <span
+                                                        class="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                                                        Active
+                                                    </span>
+                                                @endif
+
+                                            </div>
+                                        </td>
+
+                                        <td class="hidden px-5 py-4 text-sm text-gray-500 sm:table-cell">
+                                            {{ number_format($poll->total_votes) }}
+                                        </td>
+
+                                        <td class="hidden px-5 py-4 text-sm text-gray-500 md:table-cell">
+                                            {{ $poll->created_at->format('Y-m-d') }}
+                                        </td>
+
+
+                                        <td class="px-5 py-4">
+                                            <div class="flex items-center justify-end gap-2">
+
+                                                <a href="{{ route('polls.results', $poll->id) }}"
+                                                    class="rounded-lg px-3 py-1 text-sm text-gray-600 hover:bg-gray-100">
+                                                    View
+                                                </a>
+
+                                                <button
+                                                    onclick="copyLink('{{ url('/poll/' . $poll->slug) }}', {{ $poll->id }})"
+                                                    id="copyLinkBtn-{{ $poll->id }}"
+                                                    class="rounded-lg px-3 py-1 text-sm text-gray-600 hover:bg-gray-100">
+                                                    Copy
+                                                </button>
+
+                                                <button @click="openDelete = true; deleteId={{ $poll->id }}"
+                                                    class="rounded-lg px-3 py-1 text-sm text-red-600 hover:bg-red-50">
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            @endIf
                         </tbody>
                     </table>
                     <div class="p-4">

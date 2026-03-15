@@ -1,4 +1,4 @@
-<a href="#" class="flex items-center gap-2 font-bold text-xl text-zinc-900">
+<a href="/" class="flex items-center gap-2 font-bold text-xl text-zinc-900">
     <div class="w-8 h-8 rounded-lg bg-[#6366f1] flex items-center justify-center">
         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -16,6 +16,7 @@ class PollController extends Controller
     {
         try {
             $polls = Poll::latest()
+            ->where('created_by', auth()->id())
             ->paginate(10);
 
             return view('admin.polls.index', compact('polls'));
@@ -58,7 +59,9 @@ class PollController extends Controller
     public function results($id)
     {
         try {
-            $poll = Poll::with('options.votes')->findOrFail($id);
+            $poll = Poll::with('options.votes')
+            ->where('created_by', auth()->id())
+            ->findOrFail($id);
             $shareLink = url('/poll/' . $poll->slug);
             return view('admin.polls.results', compact('poll', 'shareLink'));
         } catch (Exception $e) {
@@ -70,7 +73,8 @@ class PollController extends Controller
     public function destroy($id)
     {
         try {
-            $poll = Poll::findOrFail($id);
+            $poll = Poll::where('created_by', auth()->id())
+            ->findOrFail($id);
             $poll->delete();
             return redirect()->route('polls')->with('success', 'Poll deleted successfully!');
         } catch (Exception $e) {

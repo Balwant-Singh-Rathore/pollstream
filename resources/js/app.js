@@ -1,6 +1,8 @@
 import './bootstrap';
 import './elements/turbo-echo-stream-tag';
 import './libs';
+import './echo';
+import './stream';
 
 import Alpine from 'alpinejs'
 

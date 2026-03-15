@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pollstream - Real-Time Polling Platform</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <script>
+        window.tailwind = window.tailwind || {};
         tailwind.config = {
             theme: {
                 extend: {
@@ -35,6 +35,7 @@
             }
         }
     </script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --bg: #fafbfc;
@@ -120,7 +121,7 @@
         }
 
         .animate-on-scroll {
-            opacity: 0;
+            opacity: 1;
             transform: translateY(20px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
@@ -131,7 +132,7 @@
         }
 
         .stagger-item {
-            opacity: 0;
+            opacity: 1;
             transform: translateY(20px);
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
@@ -174,18 +175,12 @@
     </style>
 </head>
 
-<body class="bg-gradient-subtle min-h-screen">
+<body data-turbo="false" class="bg-gradient-subtle min-h-screen">
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200/60">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="#" class="flex items-center gap-2 font-bold text-xl text-zinc-900">
-                    <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center">
-                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                    </div>
-                    Pollstream
+                <a href="#" class="flex items-center absolute gap-2 font-bold text-xl text-zinc-900">
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                 </a>
 
                 <div class="hidden md:flex items-center gap-8">
@@ -308,32 +303,11 @@
         </div>
     </section>
 
-    <section class="py-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto">
-            <div
-                class="card rounded-3xl p-8 sm:p-12 text-center bg-gradient-to-br from-brand-500 to-brand-600 border-0 animate-on-scroll">
-                <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to Create Your First Poll?</h2>
-                <p class="text-brand-100 mb-8 max-w-lg mx-auto">No signup required. Just create a poll, share the link,
-                    and watch the votes come in.</p>
-                <a href="{{ route('register') }}"
-                    class="bg-white text-brand-600 px-8 py-3 rounded-xl font-semibold hover:bg-brand-50 transition-colors">
-                    Create Poll Now
-                </a>
-            </div>
-        </div>
-    </section>
-
     <footer class="py-12 px-4 sm:px-6 lg:px-8 border-t border-zinc-200">
         <div class="max-w-6xl mx-auto">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center gap-2 font-semibold text-zinc-900">
-                    <div class="w-6 h-6 rounded-md bg-brand-500 flex items-center justify-center">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                    </div>
-                    Pollstream
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                 </div>
 
                 <p class="text-sm text-zinc-500 text-center">
@@ -346,66 +320,6 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-            });
-        });
-
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry, index) => {
-                if (entry.isIntersecting) {
-                    if (entry.target.classList.contains('stagger-item')) {
-                        const siblings = entry.target.parentElement.querySelectorAll('.stagger-item');
-                        siblings.forEach((sibling, i) => {
-                            setTimeout(() => {
-                                sibling.classList.add('visible');
-                            }, i * 150);
-                        });
-                    } else {
-                        entry.target.classList.add('visible');
-                    }
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.animate-on-scroll, .stagger-item').forEach(el => {
-            observer.observe(el);
-        });
-
-        let lastScroll = 0;
-        const nav = document.querySelector('nav');
-
-        window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-
-            if (currentScroll > 100) {
-                nav.classList.add('shadow-sm');
-            } else {
-                nav.classList.remove('shadow-sm');
-            }
-
-            lastScroll = currentScroll;
-        }, {
-            passive: true
-        });
-    </script>
 </body>
 
 </html>

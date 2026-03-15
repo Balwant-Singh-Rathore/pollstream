@@ -16,7 +16,9 @@ class DashboardController extends Controller
                 COUNT(*) as total_polls,
                 SUM(total_votes) as total_votes,
                 SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_polls
-            ')->first();
+            ')
+            ->where('created_by', auth()->id())
+            ->first();
 
             return view('admin.dashboard', [
                 'totalPolls' => $stats->total_polls ?? 0,
