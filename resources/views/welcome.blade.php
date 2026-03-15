@@ -302,24 +302,5 @@
             </div>
         </div>
     </section>
-
-    <footer class="py-12 px-4 sm:px-6 lg:px-8 border-t border-zinc-200">
-        <div class="max-w-6xl mx-auto">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-2 font-semibold text-zinc-900">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </div>
-
-                <p class="text-sm text-zinc-500 text-center">
-                    Built with Laravel and WebSockets
-                </p>
-
-                <p class="text-sm text-zinc-400">
-                    &copy; 2025 Pollstream. All rights reserved.
-                </p>
-            </div>
-        </div>
-    </footer>
 </body>
-
 </html>
