@@ -13,13 +13,11 @@ class VoteCast implements ShouldBroadcast
 
     public $pollId;
     public $optionId;
-    public $votes;
 
-    public function __construct($pollId, $optionId, $votes)
+    public function __construct($pollId, $optionId)
     {
         $this->pollId = $pollId;
         $this->optionId = $optionId;
-        $this->votes = $votes;
     }
 
     public function broadcastOn()

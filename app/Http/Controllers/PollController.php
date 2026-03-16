@@ -51,19 +51,17 @@ class PollController extends Controller
                 return back()->withErrors('You have already voted in this poll.');
             }
 
+            # atomic increment that allows us to safely update the total votes and option votes without worrying about race conditions & performance issues under high concurrency
+            Poll::where('id', $request->poll_id)
+                    ->increment('total_votes');
+
+            PollOption::where('id', $request->option_id)
+                ->increment('votes_count');
+
             broadcast(new VoteCast(
                 $request->poll_id,
                 $request->option_id,
-                Poll::where('id', $request->poll_id)->value('total_votes')
             ));
-
-            defer(function () use ($request) {
-                Poll::where('id', $request->poll_id)
-                    ->increment('total_votes');
-
-                PollOption::where('id', $request->option_id)
-                    ->increment('votes_count');
-            });
 
             return back()->with('voted', $request->option_id);
 
