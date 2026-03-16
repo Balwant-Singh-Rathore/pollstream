@@ -36,32 +36,33 @@ class PollController extends Controller
         try {
             $ip = $request->ip();
 
-            $alreadyVoted = Vote::where('poll_id', $request->poll_id)
-                ->where('ip_address', $ip)
-                ->exists();
+            # here we are using atomic insert so it will help to prevent duplicates votes from database side itself
+            # we already have indexed ip_address and poll_id in votes table so it will be fast to check for duplicates and uniqness of votes
+            # we can use redis/kafka consumer as well for higher performance but for 10k-20K concurrent users this approach should be sufficient and simpler to implement
+            $inserted = DB::table('votes')->insertOrIgnore([
+                'poll_id' => $request->poll_id,
+                'poll_option_id' => $request->option_id,
+                'ip_address' => $ip,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-            if ($alreadyVoted) {
-                return back()->with('error', 'You have already voted on this poll.');
+            if(!$inserted) {
+                return back()->withErrors('You have already voted in this poll.');
             }
 
-            DB::transaction(function () use ($request, $ip) {
-                Vote::create([
-                    'poll_id' => $request->poll_id,
-                    'poll_option_id' => $request->option_id,
-                    'ip_address' => $ip
-                ]);
+            broadcast(new VoteCast(
+                $request->poll_id,
+                $request->option_id,
+                Poll::where('id', $request->poll_id)->value('total_votes')
+            ));
 
+            defer(function () use ($request) {
                 Poll::where('id', $request->poll_id)
                     ->increment('total_votes');
 
                 PollOption::where('id', $request->option_id)
                     ->increment('votes_count');
-
-                broadcast(new VoteCast(
-                    $request->poll_id,
-                    $request->option_id,
-                    Poll::where('id', $request->poll_id)->value('total_votes')
-                ));
             });
 
             return back()->with('voted', $request->option_id);

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug', 255)->unique();
             $table->string('question', 191);
-            $table->integer('total_votes')->default(0);
+            $table->unsignedBigInteger('total_votes')->default(0);
             $table->boolean('is_active')->default(true);
             $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
